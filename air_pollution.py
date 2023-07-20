@@ -51,39 +51,41 @@ legend_html = """
 m.get_root().html.add_child(folium.Element( legend_html ))
 
 iframe = folium.IFrame( str(r_load['list'][0]['components']) )
-
-def add_icon(input_color):
+def add_icon(input_color, city):
     popup = folium.Popup(iframe, min_width=250, max_width=150)
     folium.Marker(
         location=j,
         tooltip=t,
         popup=popup,
         icon=folium.DivIcon(html="""                        
-            <div><span  style="background-color:{};padding:4pt 6pt;border-bottom-right-radius: 2pt;
-                            border-top-right-radius: 2pt;color:white;
-                            font-size: 12px;">Sadegh</span></div>""".format(input_color))   
+                            <div><span style="background-color: #48484a;color:#fff; padding:4pt 2pt;border-bottom-left-radius: 2pt;
+                            border-top-left-radius: 2pt; font-size: 12px">{:.1f}</span><span 
+                            style="background-color:{};padding:4pt 6pt;border-bottom-right-radius: 2pt;
+                            border-top-right-radius: 2pt;color:#fff;
+                            font-size: 12px;">{}</span></div>""".format(r_load['list'][0]['components']['pm2_5'], input_color, city))   
             #<svg width="60" height="30">
             #    <rect x="0", y="0" width="60" height="25" rx="5" ry="5", fill="{}", opacity=".9">
             #</svg>
         # icon=folium.Icon(color=input_color,icon="info-sign")              
     ).add_to(m)
 
+cities = ['Tehran']
+for city in cities:
+    if r_load['list'][0]['main']['aqi'] == 1:
+        add_icon('green', city)
 
-if r_load['list'][0]['main']['aqi'] == 1:
-    add_icon('green')
+    elif r_load['list'][0]['main']['aqi'] == 2:
+        print("im yellow")
+        add_icon('yellow', city)
+        
+    elif r_load['list'][0]['main']['aqi'] == 3:
+        add_icon('red', city)
 
-elif r_load['list'][0]['main']['aqi'] == 2:
-    print("im yellow")
-    add_icon('yellow')
-    
-elif r_load['list'][0]['main']['aqi'] == 3:
-    add_icon('red')
+    elif r_load['list'][0]['main']['aqi'] == 4:
+        add_icon('purple', city)
 
-elif r_load['list'][0]['main']['aqi'] == 4:
-    add_icon('purple')
-
-elif r_load['list'][0]['main']['aqi'] == 5:
-    add_icon('darkred')
+    elif r_load['list'][0]['main']['aqi'] == 5:
+        add_icon('darkred', city)
     
 m.save('map.html')
 webbrowser.open('map.html')
