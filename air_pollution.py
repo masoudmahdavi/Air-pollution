@@ -5,7 +5,7 @@ import webbrowser
 #import matplotlib.pyplot as plt
 
 
-r=urllib.request.urlopen('http://api.openweathermap.org/data/2.5/air_pollution?lat=34.09694&lon=49.69097&appid=c25103faa8e1e86e246b9b4329d342f0')
+r=urllib.request.urlopen('http://api.openweathermap.org/data/2.5/air_pollution?lat=51.403565&lon=35.723145&appid=c25103faa8e1e86e246b9b4329d342f0')
 rr=r.getcode()
 r_read=r.read()
 
@@ -30,96 +30,67 @@ legend_html = """
      <div style="
      position: fixed; 
      top: 50px; right: 50px; width: 200px; height: 180px; 
-     border:2px solid grey; z-index:9999; 
-     
-     background-color:white;
-     opacity: .85;
-     
-     font-size:14px;
-     font-weight: bold;
+     border:2px solid grey; z-index:9999; font-weight: bold;
+     background-color:white; opacity: .85; ont-size:14px;
      
      ">
-     &nbsp; {title} 
-     
+     &nbsp; 
+     {title} 
      {itm_txt1}
      {itm_txt2}
      {itm_txt3}
      {itm_txt4}
      {itm_txt5}
-     
-     
-
-      </div> """.format( title = "راهنما", itm_txt1= html_itms,
-      itm_txt2=html_itms2,
-      itm_txt3=html_itms3,
-      itm_txt4=html_itms4,
-      itm_txt5=html_itms5
+      </div> """.format( title = "راهنما", 
+                         itm_txt1= html_itms,
+                         itm_txt2=html_itms2,
+                         itm_txt3=html_itms3,
+                         itm_txt4=html_itms4,
+                         itm_txt5=html_itms5
       )
 m.get_root().html.add_child(folium.Element( legend_html ))
 
-    
-
 iframe = folium.IFrame( str(r_load['list'][0]['components']) )
 
-if r_load['list'][0]['main']['aqi'] == 1:
+def add_icon(input_color):
     popup = folium.Popup(iframe, min_width=250, max_width=150)
     folium.Marker(
         location=j,
         tooltip=t,
         popup=popup,
-        
-        icon=folium.Icon(color='green',icon="info-sign")
-        
-                         
+        icon=folium.DivIcon(html="""                        
+            <div><span  style="background-color:{};padding:4pt 6pt;border-bottom-right-radius: 2pt;
+                            border-top-right-radius: 2pt;color:white;
+                            font-size: 12px;">Sadegh</span></div>""".format(input_color))   
+            #<svg width="60" height="30">
+            #    <rect x="0", y="0" width="60" height="25" rx="5" ry="5", fill="{}", opacity=".9">
+            #</svg>
+        # icon=folium.Icon(color=input_color,icon="info-sign")              
     ).add_to(m)
+
+
+if r_load['list'][0]['main']['aqi'] == 1:
+    add_icon('green')
 
 elif r_load['list'][0]['main']['aqi'] == 2:
-    popup = folium.Popup(iframe, min_width=250, max_width=150)
-    folium.Marker(
-        location=j,
-        tooltip=t,
-        popup=popup,
-        
-        icon=folium.Icon(color='yellow',icon="info-sign")
-        
-                        
-    ).add_to(m)
-
+    print("im yellow")
+    add_icon('yellow')
+    
 elif r_load['list'][0]['main']['aqi'] == 3:
-    popup = folium.Popup(iframe, min_width=250, max_width=150)
-    folium.Marker(
-        location=j,
-        tooltip=t,
-        popup=popup,
-        
-        icon=folium.Icon(color='red',icon="info-sign")
-        
-                        
-    ).add_to(m)
+    add_icon('red')
 
 elif r_load['list'][0]['main']['aqi'] == 4:
-    popup = folium.Popup(iframe, min_width=250, max_width=150)
-    folium.Marker(
-        location=j,
-        tooltip=t,
-        popup=popup,
-        
-        icon=folium.Icon(color='purple',icon="info-sign")
-        
-                        
-    ).add_to(m)
+    add_icon('purple')
 
 elif r_load['list'][0]['main']['aqi'] == 5:
-    popup = folium.Popup(iframe, min_width=250, max_width=150)
-    folium.Marker(
-        location=j,
-        tooltip=t,
-        popup=popup,
-        
-        icon=folium.Icon(color='darkred',icon="info-sign")
-        
-                        
-    ).add_to(m)
+    add_icon('darkred')
     
 m.save('map.html')
 webbrowser.open('map.html')
+'''
+icon=folium.DivIcon(html=f"""
+            <div><svg>
+                <circle cx="50" cy="50" r="40" fill="#69b3a2" opacity=".4"/>
+                <rect x="35", y="35" width="30" height="30", fill="red", opacity=".3" 
+            </svg></div>""")    
+            '''
