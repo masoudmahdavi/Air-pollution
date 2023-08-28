@@ -63,7 +63,7 @@ def add_icon(input_color, city):
                             <div><span style="background-color: #48484a;color:#fff; padding:4pt 2pt;border-bottom-left-radius: 2pt;
                             border-top-left-radius: 2pt; font-size: 12px">{:.1f}</span><span 
                             style="background-color:{};padding:4pt 6pt;border-bottom-right-radius: 2pt;
-                            border-top-right-radius: 2pt;color:#fff;
+                            border-top-right-radius: 2pt;color:#A6A5A5;
                             font-size: 12px;">{}</span></div>""".format(r_load['list'][0]['components']['pm2_5'], input_color, city))   
             #<svg width="60" height="30">
             #    <rect x="0", y="0" width="60" height="25" rx="5" ry="5", fill="{}", opacity=".9">
