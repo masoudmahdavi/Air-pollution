@@ -11,5 +11,6 @@ This project visualizes air pollution levels in Iran on an interactive map using
 ## Installation ⚙️
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/your-repo.git
+   git clone project
    cd your-repo
+   python3 air_pollution.py
